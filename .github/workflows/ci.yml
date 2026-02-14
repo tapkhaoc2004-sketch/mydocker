@@ -1,0 +1,19 @@
+name: Docker CI Pipeline
+
+# 1. กำหนดว่าหุ่นยนต์จะทำงานตอนไหน (Trigger)
+on:
+  push:
+    branches: [ "main" ] # ทำงานเมื่อมีการ Push โค้ดเข้า branch main
+
+jobs:
+  build:
+    # 2. ให้ GitHub เตรียมเครื่อง Server เปล่าๆ เป็น Ubuntu ขึ้นมาให้เราฟรีๆ
+    runs-on: ubuntu-latest 
+
+    steps:
+    # 3. ขั้นตอนการทำงาน
+    - name: Step 1 - Pull Source Code
+      uses: actions/checkout@v3 # ดึงโค้ดล่าสุดจาก Repository ของเรามาลงเครื่อง Server จำลอง
+
+    - name: Step 2 - Test Docker Build
+      run: docker build . --file Dockerfile --tag my-app:test # สั่งรันคำสั่ง Build เพื่อเช็กว่า Dockerfile เราไม่มี Error
